@@ -1,98 +1,123 @@
-Task Management Platform:
+Task Management Platform
+Table of Contents
+2. Project Structure (folders & files)
+3. Database Models (Mongoose schemas)
+4. API Endpoints
+5. Middleware
+6. Authentication
+7. Error Handling
+8. Technical Research Topics
+9. Notes for Students / Acceptance Criteria
 
-Project Structure:
+---
+## 2. Project Structure
 
-project-root/
-├─ README.md
-├─ src/
-│  ├─ server.js
-│  ├─ app.js
-│  ├─ config/
-│  ├─ routes/
-│  ├─ controllers/
-│  ├─ models/
-│  ├─ middlewares/
-│  ├─ services/
-│  └─ utils/
-└─ docs/
-.env
-package-lock.json
-package.json
-validate.txt.
+```
+├── node_modules
+├── src
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── project.controller.js
+│   │   ├── task.controller.js
+│   │   ├── analytics.controller.js
+│   │   └── notification.controller.js
+│   ├── middleware
+│   │   ├── auth.middleware.js             
+│   │   └── error.middleware.js            
+│   ├── models
+│   │   ├── User.js
+│   │   ├── Project.js
+│   │   ├── Task.js
+│   │   └── Notification.js
+│   ├── routes
+│   │   ├── auth.routes.js
+│   │   ├── project.routes.js
+│   │   ├── task.routes.js
+│   │   └── notification.routes.js
+│   ├── utils                
+│   │   ├── tokenService.js            
+│   │   └── notificationService.js      
+│   ├── app.js                     
+├── .env
+├── .gitIgnore
+├── package-lock.json
+├── package.json
+└── README.md
+```
 
- Database Models:
+## 3. Database Models
 
- User: name, email, password, settings
- Project: name, description, owner, members
- Task: title, description, project, creator, assignees, status, priority, dueDate
- Invitation: project, inviter, inviteeEmail, token, status
-Notification: user, type, payload, read
+* User:
+  name(String, Required),
+  email(String, Required, Unique),
+  password(String, Required (Stored as a hashed value)),
+settings.
+* Project:
+ name(String, Required.),
+  description,
+ owner(ObjectId (Reference: User).),
+  members([ObjectId] (Reference: User), the list of team members.)
+* Task:
+ title(String, Required.),
+   description,
+   project(ObjectId (Reference: Project), optional for personal tasks.),
+   creator(ObjectId (Reference: User), Required),
+    assignees(ObjectId (Reference: User), Required),
+  status(String ('todo', 'in progress', 'done').),
+   priority(String (e.g., 'low', 'high'), Required.),
+   dueDate(Date.)
+* Notification: recipient: ObjectId (Reference: User), Required.
+            -sourceUser: ObjectId (Reference: User), who initiated the action.
+            -type: String ('assignment', 'deadline').
+            -targetResource: ObjectId (Reference: Task/Project), the ID of the related item.
+            -deliveryType: [String] ( ['web', 'email'] ), the channels to use.
+            -isRead: Boolean, read status.
+## 4. API Endpoints
 
-  API Endpoints:
+* Auth: register, login
+* Users: get current user
+* Projects: create, list, get by ID, invite members
+* Tasks: create, list, get by ID, update, delete, add reminder
+* Invitations: accept
+* Notifications: list, mark read
+* Analytics: overview
 
- Auth: register, login
- Users: get current user
- Projects: create, list, get by ID, invite members
- Tasks: create, list, get by ID, update, delete, add reminder
- Invitations: accept
- Notifications: list, mark read
- Analytics: overview
- Middleware.
+## 5. Middleware
 
+* auth: verify JWT
+* permission: check project ownership/membership
+* validate: request validation
+* errorHandler: centralized error handling
 
- 
-Errors:
-500 : { success: false, error: "error.message" }
-400: { success: false, error: "User Not Found" }
-Potential User Mistakes:
-Internal Server Error
-Get User Not Found.
+## 6. Authentication
 
+* JWT access tokens for protected routes
+* Optional refresh tokens
+* Hash passwords with bcrypt
+* Use HTTPS in production
 
- auth: verify JWT
- permission: check project ownership/membership
- validate: request validation
-errorHandler: centralized error handling
- Authentication.
+## 7. Error Handling
 
- JWT access tokens for protected routes
-Optional refresh tokens
- Hash passwords with bcrypt
-Use HTTPS in production.
+* Centralized middleware with standard error classes: BadRequest, NotFound, Unauthorized, Forbidden, Conflict
+* Log errors and provide generic messages to users
 
- 
+## 8. Technical Research Topics
 
-Technical Research Topics:
+* JWT authentication and refresh flow
+* MongoDB relationships and schema design
+* Express.js middleware and routing
+* Mongoose transactions
+* RESTful API best practices
+* Password security with bcrypt
+* Job scheduling in Node.js
+* Real-time notifications
 
- JWT authentication and refresh flow
-MongoDB relationships and schema design
- Express.js middleware and routing
- Mongoose transactions
- RESTful API best practices
- Password security with bcrypt
- Job scheduling in Node.js
- Real-time notifications
+## 9. Notes for Students / Acceptance Criteria
 
-. Notes for Students / Acceptance Criteria.
+* Unit and integration tests for endpoints
+* Input validation and sanitization
+* Secure password storage and JWT usage
+* Clear MVP definition and feature flow
+* Document business rules and edge cases
 
-Unit and integration tests for endpoints
- Input validation and sanitization
- Secure password storage and JWT usage
- Clear MVP definition and feature flow
- Document business rules and edge cases
-
-. How to think about the project before coding
-
- Define goals, outcomes, and success metrics
- Identify stakeholders and personas
- Plan user flows for registration, project creation, task management, and notifications
- Decide MVP features: auth, projects CRUD, tasks CRUD, notifications
- Model data mentally: Users, Projects, Tasks, Invitations, Notifications
- Plan API contracts before coding
- Define business rules (who can delete, assign, etc.)
- Consider non-functional requirements: security, performance, scalability
- Break work into sprints/milestones
- Identify risks and mitigation strategies
- Define acceptance criteria for each user story
- Plan testing strategy and dev workflow
 
