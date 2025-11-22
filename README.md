@@ -1,5 +1,7 @@
-Task Management Platform
+Task Management Platform:
+
 Project Structure:
+
 project-root/
 ├─ README.md
 ├─ src/
@@ -16,16 +18,17 @@ project-root/
 .env
 package-lock.json
 package.json
-validate.txt
- Database Models
+validate.txt.
+
+ Database Models:
 
  User: name, email, password, settings
  Project: name, description, owner, members
  Task: title, description, project, creator, assignees, status, priority, dueDate
  Invitation: project, inviter, inviteeEmail, token, status
-*Notification: user, type, payload, read
+Notification: user, type, payload, read
 
- 4. API Endpoints
+  API Endpoints:
 
  Auth: register, login
  Users: get current user
@@ -35,30 +38,31 @@ validate.txt
  Notifications: list, mark read
  Analytics: overview
  Middleware.
+
+
  
 Errors:
 500 : { success: false, error: "error.message" }
 400: { success: false, error: "User Not Found" }
 Potential User Mistakes:
 Internal Server Error
-Get User Not Found
+Get User Not Found.
+
+
  auth: verify JWT
  permission: check project ownership/membership
  validate: request validation
 errorHandler: centralized error handling
- Authentication
+ Authentication.
 
  JWT access tokens for protected routes
 Optional refresh tokens
  Hash passwords with bcrypt
-Use HTTPS in production
+Use HTTPS in production.
 
- Error Handling
+ 
 
- Centralized middleware with standard error classes: BadRequest, NotFound, Unauthorized, Forbidden, Conflict
- Log errors and provide generic messages to users
-
-Technical Research Topics
+Technical Research Topics:
 
  JWT authentication and refresh flow
 MongoDB relationships and schema design
@@ -69,7 +73,7 @@ MongoDB relationships and schema design
  Job scheduling in Node.js
  Real-time notifications
 
-. Notes for Students / Acceptance Criteria
+. Notes for Students / Acceptance Criteria.
 
 Unit and integration tests for endpoints
  Input validation and sanitization
